@@ -1,0 +1,27 @@
+type Error = variant { NotFound : record { msg : text } };
+type Player = record {
+  id : nat64;
+  updated_at : opt nat64;
+  attempts_left : nat64;
+  name : text;
+  created_at : nat64;
+  score : nat64;
+  secret_number : nat64;
+};
+type PlayerPayload = record { name : text };
+type PublicPlayer = record {
+  id : nat64;
+  attempts_left : nat64;
+  clue : text;
+  name : text;
+  score : nat64;
+};
+type Result = variant { Ok : Player; Err : Error };
+type Result_1 = variant { Ok : PublicPlayer; Err : Error };
+service : {
+  add_player : (PlayerPayload) -> (opt PublicPlayer);
+  delete_player : (nat64) -> (Result);
+  get_player : (nat64) -> (Result_1) query;
+  play_game : (nat64, nat64) -> (Result_1);
+  update_score : (nat64, nat64) -> (Result_1);
+}
